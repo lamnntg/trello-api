@@ -1,0 +1,30 @@
+{
+  "name": "trello-api",
+  "version": "1.0.0",
+  "description": "trello clone",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "eslint": "eslint src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lamylov3/trello-api.git"
+  },
+  "keywords": [
+    "trello-lamnguyen"
+  ],
+  "author": "lamnguyen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lamylov3/trello-api/issues"
+  },
+  "homepage": "https://github.com/lamylov3/trello-api#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0"
+  }
+}
