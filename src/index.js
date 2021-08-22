@@ -1,10 +1,14 @@
 import express from 'express';
 import { mapOrder } from '*/utillities/sort';
+import { connectDB } from '*/config/mongodb';
+import { env } from '*/config/environtments';
 
 const app = express();
 
-const hostname = 'localhost';
-const port = 3000;
+const hostname = env.HOST;
+const port = env.PORT;
+
+connectDB().catch(err => console.log(err));
 
 app.get('/', (req, res) => {
     res.end('<h1>Hello World!<h1>');
