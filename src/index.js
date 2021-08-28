@@ -1,19 +1,45 @@
 import express from 'express';
 import { mapOrder } from '*/utillities/sort';
-import { connectDB } from '*/config/mongodb';
+import { connectDB, getDB } from '*/config/mongodb';
 import { env } from '*/config/environtments';
+import { boardModel } from '*/models/board.model';
 
-const app = express();
+connectDB()
+    .then(() => {
+        console.log('connected db server');
+    })
+    .then(() => {
+        bootServer();
+    })
+    .catch(err => {
+        console.log(err);
+        process.exit();
+    });
 
-const hostname = env.HOST;
-const port = env.PORT;
+const bootServer = () => {
+    const app = express();
 
-connectDB().catch(err => console.log(err));
+    app.get('/', async (req, res) => {
+        const dbIntance = getDB();
 
-app.get('/', (req, res) => {
-    res.end('<h1>Hello World!<h1>');
-});
+        await dbIntance.collection('boards').insertOne(
+            {
+                title: 'lammngyuyen'
+            }
+        );
+        res.end('<h1>Hello World!<h1>');
+    });
 
-app.listen(port, hostname, () => {
-    console.log( `hello ${hostname}:${port}`);
-});
+    app.get('/test', async (req, res) => {
+        const fakeData = {
+            title: 'sadasd'
+        }
+        let result = await boardModel.createBoard(fakeData);
+        console.log(result);
+        res.end('<h1>Route Test<h1>');
+    });
+
+    app.listen(env.APP_PORT, env.APP_HOST, () => {
+        console.log(`hello ${env.APP_HOST}:${env.APP_PORT}`);
+    });
+};

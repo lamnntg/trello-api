@@ -22,8 +22,11 @@ npm install --save @babel/runtime
 
 cấu hình relative import for babel
 https://www.npmjs.com/package/babel-plugin-module-resolver
-
+-   Cau hinh trong config/mongodb.js
+    tao 1 file export tat ca cac bien trong config 
 - Mongoose vs Mongodb native => Lookup vs Popular 
 
   MongoDB alast / cluster 
-  Cau hinh trong config/mongodb.js
+
+
+  
