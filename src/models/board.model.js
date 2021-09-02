@@ -5,7 +5,6 @@ const boardCollectionName = 'boards';
 
 const boardSchema = Joi.object({
     title: Joi.string()
-        .alphanum()
         .min(3)
         .max(30)
         .required(),
@@ -47,7 +46,7 @@ const createBoard = async (data) => {
 
         return await getBoard(result.insertedId);
     } catch (error) {
-        console.log(error);
+        throw new Error(error);
     }
 }
 
