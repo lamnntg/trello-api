@@ -22,7 +22,7 @@ npm install --save @babel/runtime
 
 cấu hình relative import for babel
 https://www.npmjs.com/package/babel-plugin-module-resolver
- 
+
 
 28/08/2021
 - Mongoose vs Mongodb native => Lookup vs Popular 
@@ -35,7 +35,3 @@ https://www.npmjs.com/package/babel-plugin-module-resolver
 02/09/2021
 - Validate request khai bao model 
 - to chuc folow HttpRequest -> router ->( Middleware + validation ) -> controller -> service -> Models -> database
-
-
-
-  
