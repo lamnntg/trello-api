@@ -3,6 +3,7 @@ import { mapOrder } from '*/utillities/sort';
 import { connectDB, getDB } from '*/config/mongodb';
 import { env } from '*/config/environtments';
 import { boardModel } from '*/models/board.model';
+import { apiV1 } from '*/routes/v1';
 
 connectDB()
     .then(() => {
@@ -18,7 +19,10 @@ connectDB()
 
 const bootServer = () => {
     const app = express();
+    // body-paser
+    app.use(express.json());
 
+    app.use('/v1', apiV1);
     app.get('/', async (req, res) => {
         const dbIntance = getDB();
 
@@ -38,6 +42,7 @@ const bootServer = () => {
         console.log(result);
         res.end('<h1>Route Test<h1>');
     });
+
 
     app.listen(env.APP_PORT, env.APP_HOST, () => {
         console.log(`hello ${env.APP_HOST}:${env.APP_PORT}`);
