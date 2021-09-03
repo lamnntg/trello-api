@@ -42,7 +42,7 @@ const createColumn = async (data) => {
 
     return await getColumn(result.insertedId);
   } catch (error) {
-    console.log(error);
+    throw new Error(error);
   }
 };
 
