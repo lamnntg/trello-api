@@ -1,19 +1,19 @@
 {
-	"env": {
+    "env": {
     "es6": true,
     "node": true,
-		"browser": true
-	},
-	"extends": [
+        "browser": true
+    },
+    "extends": [
     "eslint:recommended"
   ],
   "plugins": [],
   "parser": "@babel/eslint-parser",
-	"parserOptions": {
+    "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module"
-	},
-	"rules": {
+    },
+    "rules": {
     "no-console": 0,
     "no-unused-vars": 1,
     "no-trailing-spaces": 1,
@@ -21,16 +21,16 @@
     "no-multiple-empty-lines": 1,
     "space-before-blocks": ["error", "always"],
     "object-curly-spacing": [1, "always"],
-		"indent": ["warn", 4],
+    "indent": ["warn", 2],
     // "linebreak-style": 0,
     // "semi": [1, "never"],
-		"quotes": ["error", "single"],
+    "quotes": ["error", "double"],
     "no-unexpected-multiline": "warn",
     "react/prop-types": 0,
     "react/display-name": 0,
     "keyword-spacing": 1,
-    "comma-dangle": 1,
+    "comma-dangle": 0,
     "comma-spacing": 1,
     "arrow-spacing": 1
-	}
+    }
 }

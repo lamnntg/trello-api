@@ -1,56 +1,49 @@
-import Joi from 'joi';
-import { getDB } from '*/config/mongodb';
+import Joi from "joi";
+import { getDB } from "*/config/mongodb";
 
-const columnCollectionName = 'columns';
+const columnCollectionName = "columns";
 
 const columnSchema = Joi.object({
-    boardId: Joi.string().required(),
+  boardId: Joi.string().required(),
 
-    title: Joi.string()
-        .alphanum()
-        .min(3)
-        .max(30)
-        .required(),
+  title: Joi.string().alphanum().min(3).max(30).required(),
 
-    cardOrder: Joi.array()
-        .items(Joi.string())
-        .default([]),
+  cardOrder: Joi.array().items(Joi.string()).default([]),
 
-    created_at: Joi.date()
-        .timestamp()
-        .default(Date.now()),
+  created_at: Joi.date().timestamp().default(Date.now()),
 
-    updated_at: Joi.date()
-        .timestamp()
-        .default(null),
+  updated_at: Joi.date().timestamp().default(null),
 
-    __destroy: Joi.boolean()
-        .default(false)
+  __destroy: Joi.boolean().default(false),
 });
 
 const validateColumn = async (data) => {
-    // return all error of validation
-    return await columnSchema.validateAsync(data, { abortEarly: false });
+  // return all error of validation
+  return await columnSchema.validateAsync(data, { abortEarly: false });
 };
 
 const getColumn = async (id) => {
-    try {
-        const result = await getDB().collection(columnCollectionName).findOne({ _id: id });
-        return result;
-    } catch (error) {
-        console.log(error);
-    }
-}
+  try {
+    const result = await getDB()
+      .collection(columnCollectionName)
+      .findOne({ _id: id });
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const createColumn = async (data) => {
-    try {
-        const value = await validateColumn(data);
-        const result = await getDB().collection(columnCollectionName).insertOne(value);
+  try {
+    const value = await validateColumn(data);
+    const result = await getDB()
+      .collection(columnCollectionName)
+      .insertOne(value);
 
-        return await getColumn(result.insertedId);
-    } catch (error) {
-        console.log(error);
-    }
-}
+    return await getColumn(result.insertedId);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const columnModel = { createColumn };
