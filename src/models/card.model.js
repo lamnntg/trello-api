@@ -1,5 +1,6 @@
 import Joi from "joi";
 import { getDB } from "*/config/mongodb";
+import { ObjectID } from "mongodb";
 
 const cardCollectionName = "cards";
 
@@ -8,9 +9,9 @@ const cardSchema = Joi.object({
 
   columnId: Joi.string().required(),
 
-  title: Joi.string().alphanum().min(3).max(30).required(),
+  title: Joi.string().min(3).max(30).required(),
 
-  cover: Joi.string().uri.default(null),
+  cover: Joi.string().default(null),
 
   created_at: Joi.date().timestamp().default(Date.now()),
 
@@ -20,7 +21,6 @@ const cardSchema = Joi.object({
 });
 
 const validateCard = async (data) => {
-  // return all error of validation
   return await cardSchema.validateAsync(data, { abortEarly: false });
 };
 
@@ -28,10 +28,10 @@ const getCard = async (id) => {
   try {
     const result = await getDB()
       .collection(cardCollectionName)
-      .findOne({ _id: id });
+      .findOne({ _id: ObjectID(id) });
     return result;
   } catch (error) {
-    console.log(error);
+    throw new Error(error);
   }
 };
 
@@ -44,7 +44,7 @@ const createCard = async (data) => {
 
     return await getCard(result.insertedId);
   } catch (error) {
-    console.log(error);
+    throw new Error(error);
   }
 };
 
