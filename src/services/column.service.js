@@ -1,8 +1,11 @@
 import { columnModel } from "../models/column.model";
+import { boardModel } from "../models/board.model";
 
 const createColumn = async (data) => {
-  const result = await columnModel.createColumn(data);
-  return result;
+  const column = await columnModel.createColumn(data);
+  await boardModel.pushColumnOrder(column.boardId.toString(), column._id.toString());
+
+  return column;
 };
 
 const update = async (id, data) => {

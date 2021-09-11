@@ -1,5 +1,6 @@
 import Joi from "joi";
 import { getDB } from "*/config/mongodb";
+import { ObjectId } from "mongodb";
 
 const boardCollectionName = "boards";
 
@@ -31,6 +32,36 @@ const getBoard = async (id) => {
   }
 };
 
+const getFullBoard = async (id) => {
+  try {
+    const result = await getDB().collection(boardCollectionName)
+      .aggregate([
+        { $match:{ _id: ObjectId(id) } },
+        // { $addFields: { _id: { $toString: "$_id" } } },
+        {
+          $lookup: {
+            from: "columns",
+            localField: "_id",
+            foreignField: "boardId",
+            as: "columns",
+          },
+        },
+        {
+          $lookup: {
+            from: "cards",
+            localField: "_id",
+            foreignField: "boardId",
+            as: "cards",
+          },
+        },
+      ])
+      .toArray();
+    return result[0] || {};
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const createBoard = async (data) => {
   try {
     const value = await validateBoard(data);
@@ -44,4 +75,19 @@ const createBoard = async (data) => {
   }
 };
 
-export const boardModel = { createBoard };
+const pushColumnOrder = async (boardId, columnId) => {
+  try {
+    const result = await getDB()
+      .collection(boardCollectionName)
+      .findOneAndUpdate(
+        { _id: ObjectId(boardId) },
+        { $push: { columnOrder: columnId } },
+        { returnOriginal: false }
+      );
+    return result;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+export const boardModel = { createBoard, getFullBoard, pushColumnOrder };
