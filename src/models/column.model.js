@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { ObjectID } from "mongodb";
+import { ObjectId } from "mongodb";
 import { getDB } from "*/config/mongodb";
 
 const columnCollectionName = "columns";
@@ -27,7 +27,7 @@ const getColumn = async (id) => {
   try {
     const result = await getDB()
       .collection(columnCollectionName)
-      .findOne({ _id: ObjectID(id) });
+      .findOne({ _id: ObjectId(id) });
     return result;
   } catch (error) {
     console.log(error);
@@ -36,7 +36,12 @@ const getColumn = async (id) => {
 
 const createColumn = async (data) => {
   try {
-    const value = await validateColumn(data);
+    const validatedValue = await validateColumn(data);
+
+    const value = {
+      ...validatedValue,
+      boardId: ObjectId(validatedValue.boardId),
+    }
     const result = await getDB()
       .collection(columnCollectionName)
       .insertOne(value);
@@ -63,4 +68,19 @@ const updateColumn = async (id, data) => {
   }
 }
 
-export const columnModel = { createColumn, updateColumn };
+const pushCardOrder = async (columnId, cardId) => {
+  try {
+    const result = await getDB()
+      .collection(columnCollectionName)
+      .findOneAndUpdate(
+        { _id: ObjectId(columnId) },
+        { $push: { cardOrder: cardId } },
+        { returnOriginal: false }
+      );
+    return result;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+export const columnModel = { createColumn, updateColumn, pushCardOrder };

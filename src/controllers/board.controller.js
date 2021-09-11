@@ -15,4 +15,13 @@ const createNew = async (req, res) => {
   console.log(req.body);
 };
 
-export const boardController = { createNew };
+const getFullBoard = async (req, res) => {
+  try {
+    const result = await boardService.getBoard(req.params.id);
+    res.status(httpStatusCode.OK).json({ result: result });
+  } catch (error) {
+    res.status(httpStatusCode.INTERNAL_SERVER_ERROR).json({ message: error });
+  }
+};
+
+export const boardController = { createNew, getFullBoard };

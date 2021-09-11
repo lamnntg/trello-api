@@ -35,3 +35,7 @@ https://www.npmjs.com/package/babel-plugin-module-resolver
 02/09/2021
 - Validate request khai bao model 
 - to chuc folow HttpRequest -> router ->( Middleware + validation ) -> controller -> service -> Models -> database
+
+12/09/2021
+- Api get full board -> handle data giống với mock data bên react
+- Sử dụng query của mongodb : .insertOne, .findOneAndUpdate, .aggregate { .$match . $lookUp , ...} 
