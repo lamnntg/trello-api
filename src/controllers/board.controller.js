@@ -4,7 +4,6 @@ import { httpStatusCode } from "*/utillities/constants";
 const createNew = async (req, res) => {
   try {
     const result = await boardService.createNew(req.body);
-    console.log(result);
     res.status(httpStatusCode.OK).json({ result: result });
   } catch (error) {
     console.log(error);
@@ -12,7 +11,6 @@ const createNew = async (req, res) => {
       .status(httpStatusCode.INTERNAL_SERVER_ERROR)
       .json({ message: new Error(error).message });
   }
-  console.log(req.body);
 };
 
 const getFullBoard = async (req, res) => {
@@ -24,4 +22,13 @@ const getFullBoard = async (req, res) => {
   }
 };
 
-export const boardController = { createNew, getFullBoard };
+const updateBoard = async (req, res) => {
+  try {
+    const result = await boardService.updateBoard(req.params.id, req.body);
+    res.status(httpStatusCode.OK).json({ result: result });
+  } catch (error) {
+    res.status(httpStatusCode.INTERNAL_SERVER_ERROR).json({ message: error });
+  }
+};
+
+export const boardController = { createNew, getFullBoard, updateBoard };
