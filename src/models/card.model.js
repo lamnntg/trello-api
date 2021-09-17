@@ -53,4 +53,43 @@ const createCard = async (data) => {
   }
 };
 
-export const cardModel = { createCard };
+
+const getCardByColumnId = async (columnId) => {
+  console.log(columnId);
+  try {
+    const result = await getDB()
+      .collection(cardCollectionName)
+      .find( 
+        { "columnId": ObjectId('613cec42b406417b13c2d9a3') }
+      )
+      .toArray();
+    console.log(result);
+    return result;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+/**
+ * 
+ * @param {array} ids 
+ * @returns 
+ */
+const deleteManyCard = async (ids) => {
+  try {
+    const arrIds = ids.map(id => ObjectId(id));
+    const result = await getDB()
+      .collection(cardCollectionName)
+      .updateMany(
+        { _id: { $in: arrIds } },
+        { $set: { __destroy: true } }
+      );
+    console.log(result);
+    return result;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+
+export const cardModel = { createCard, getCardByColumnId, deleteManyCard };

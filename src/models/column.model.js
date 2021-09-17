@@ -53,16 +53,16 @@ const createColumn = async (data) => {
 };
 
 const updateColumn = async (id, data) => {
-  console.log(data);
   try {
     const result = await getDB()
       .collection(columnCollectionName)
       .findOneAndUpdate(
-        { _id: id },
+        { _id: ObjectId(id) },
         { $set: data },
         { returnOriginal: false }
       );
-    return result;
+    //check data after value
+    return result.value;
   } catch (error) {
     throw new Error(error);
   }
