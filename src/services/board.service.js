@@ -44,8 +44,8 @@ const updateBoard = async (boardId, boardContent) => {
     if (boardUpdate._id) {
       delete boardUpdate._id;
     }
-    if (boardUpdate.column) {
-      delete boardUpdate.column;
+    if (boardUpdate.columns) {
+      delete boardUpdate.columns;
     }
     const board = await boardModel.updateBoard(boardId, boardUpdate);
 

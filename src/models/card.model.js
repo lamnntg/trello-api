@@ -42,7 +42,7 @@ const createCard = async (data) => {
       ...validatedValue,
       boardId: ObjectId(validatedValue.boardId),
       columnId: ObjectId(validatedValue.columnId),
-    }
+    };
     const result = await getDB()
       .collection(cardCollectionName)
       .insertOne(value);
@@ -53,43 +53,57 @@ const createCard = async (data) => {
   }
 };
 
-
 const getCardByColumnId = async (columnId) => {
   console.log(columnId);
   try {
     const result = await getDB()
       .collection(cardCollectionName)
-      .find( 
-        { "columnId": ObjectId('613cec42b406417b13c2d9a3') }
-      )
+      .find({ columnId: ObjectId("613cec42b406417b13c2d9a3") })
       .toArray();
     console.log(result);
     return result;
   } catch (error) {
     throw new Error(error);
   }
-}
+};
 
 /**
- * 
- * @param {array} ids 
- * @returns 
+ *
+ * @param {array} ids
+ * @returns
  */
 const deleteManyCard = async (ids) => {
   try {
-    const arrIds = ids.map(id => ObjectId(id));
+    const arrIds = ids.map((id) => ObjectId(id));
     const result = await getDB()
       .collection(cardCollectionName)
-      .updateMany(
-        { _id: { $in: arrIds } },
-        { $set: { __destroy: true } }
-      );
+      .updateMany({ _id: { $in: arrIds } }, { $set: { __destroy: true } });
     console.log(result);
     return result;
   } catch (error) {
     throw new Error(error);
   }
-}
+};
 
+const updateCard = async (id, data) => {
+  try {
+    const result = await getDB()
+      .collection(cardCollectionName)
+      .findOneAndUpdate(
+        { _id: ObjectId(id) },
+        { $set: data },
+        { returnOriginal: false }
+      );
 
-export const cardModel = { createCard, getCardByColumnId, deleteManyCard };
+    return result.value;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export const cardModel = {
+  createCard,
+  getCardByColumnId,
+  deleteManyCard,
+  updateCard,
+};

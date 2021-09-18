@@ -79,16 +79,15 @@ const createBoard = async (data) => {
 };
 
 const updateBoard = async (id, data) => {
-  console.log(id);
   try {
     const result = await getDB()
       .collection(boardCollectionName)
       .findOneAndUpdate(
-        { _id: id },
+        { _id: ObjectId(id) },
         { $set: data },
         { returnOriginal: false }
       );
-    return result;
+    return result.value;
   } catch (error) {
     throw new Error(error);
   }

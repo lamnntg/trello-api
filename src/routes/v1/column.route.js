@@ -4,10 +4,12 @@ import { columnValidation } from "*/validations/column.validation";
 
 const router = express.Router();
 
-router.route("/create").post(columnValidation.createNew, columnController.createColumn);
+router
+  .route("/create")
+  .post(columnValidation.createNew, columnController.createColumn);
 
-router.route("/update/:id")
+router
+  .route("/update/:id")
   .put(columnValidation.update, columnController.update);
-
 
 export const columnRoute = router;

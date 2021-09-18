@@ -12,4 +12,16 @@ const createNew = async (req, res) => {
   }
 };
 
-export const cardController = { createNew };
+const updateCard = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await cardService.updateCard(id, req.body);
+    res.status(httpStatusCode.OK).json({ result: result });
+  } catch (error) {
+    res
+      .status(httpStatusCode.INTERNAL_SERVER_ERROR)
+      .json({ message: new Error(error).message });
+  }
+}
+
+export const cardController = { createNew, updateCard };
